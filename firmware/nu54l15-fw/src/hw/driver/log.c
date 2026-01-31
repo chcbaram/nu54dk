@@ -50,11 +50,7 @@ static void cliCmd(cli_args_t *args);
 
 
 bool logInit(void)
-{
-#ifdef _USE_HW_RTOS
-  mutex_lock = xSemaphoreCreateMutex();
-#endif
-  
+{  
   log_buf_boot.line_index     = 0;
   log_buf_boot.buf_length     = 0;
   log_buf_boot.buf_length_max = LOG_BOOT_BUF_MAX;

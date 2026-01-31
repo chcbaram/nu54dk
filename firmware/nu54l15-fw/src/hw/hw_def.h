@@ -19,6 +19,7 @@
 
 
 
+#define _USE_HW_RTOS
 
 
 #define _USE_HW_LED
@@ -47,12 +48,16 @@
 #define _USE_HW_BUTTON
 #define      HW_BUTTON_MAX_CH       BUTTON_PIN_MAX
 
+#define _USE_HW_I2C
+#define      HW_I2C_MAX_CH          1
+
 
 //-- CLI
 //
 #define _USE_CLI_HW_UART            1
 #define _USE_CLI_HW_BUTTON          1
 #define _USE_CLI_HW_LOG             1
+#define _USE_CLI_HW_I2C             1
 
 
 
