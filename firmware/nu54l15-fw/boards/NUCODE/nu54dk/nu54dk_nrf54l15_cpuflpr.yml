@@ -1,0 +1,10 @@
+identifier: nu54dk/nrf54l15/cpuflpr
+name: NUCODE NU54 DK BOARD
+vendor: NUCODE
+arch: riscv
+toolchain:
+  - zephyr
+sysbuild: true
+ram: 96
+flash: 96
+supported: []
