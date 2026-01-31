@@ -27,5 +27,8 @@ bool hwInit(void)
   buttonInit();
   i2cInit();
 
+  lcdInit();
+  lcdSetFps(20);
+    
   return true;
 }
