@@ -45,7 +45,7 @@ static uint8_t    console_rx_buf[UART_RX_BUF_LENGTH];
 
 const static uart_hw_t uart_hw_tbl[UART_MAX_CH] = 
   {
-    {"UART20 SWD   ", false},
+    {"uart22 SWD   ", false},
   };
 
 
@@ -54,7 +54,7 @@ K_THREAD_DEFINE(uart_read_thread,
                 uartReadThread, NULL, NULL, NULL,
                 _HW_DEF_RTOS_THREAD_PRI_UART, 0, 50);
 
-const struct device *uart20_dev = DEVICE_DT_GET(DT_NODELABEL(uart20));
+const struct device *uart22_dev = DEVICE_DT_GET(DT_NODELABEL(uart22));
 
 
 
@@ -94,14 +94,14 @@ bool uartSuspend(uint8_t ch)
 {
   int err;
 
-  err = device_is_ready(uart20_dev);
+  err = device_is_ready(uart22_dev);
   if (!err)
   {
     logPrintf("[E_] uart : UART device is not ready, err: %d\n", err);
     return false;
   }
     
-  pm_device_action_run(uart20_dev, PM_DEVICE_ACTION_SUSPEND);
+  pm_device_action_run(uart22_dev, PM_DEVICE_ACTION_SUSPEND);
   
   return true;
 }
@@ -110,14 +110,14 @@ bool uartResume(uint8_t ch)
 {
   int err;
 
-  err = device_is_ready(uart20_dev);
+  err = device_is_ready(uart22_dev);
   if (!err)
   {
     logPrintf("[E_] uart : UART device is not ready, err: %d\n", err);
     return false;
   }
     
-  pm_device_action_run(uart20_dev, PM_DEVICE_ACTION_RESUME);
+  pm_device_action_run(uart22_dev, PM_DEVICE_ACTION_RESUME);
   
   return true;
 }

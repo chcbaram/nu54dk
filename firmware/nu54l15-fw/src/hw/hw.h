@@ -32,6 +32,7 @@ extern "C" {
 #include "lcd.h"
 #include "spi_flash.h"
 #include "i2c.h"
+#include "sd.h"
 #include "resize.h"
 
 

@@ -25,10 +25,17 @@ bool hwInit(void)
   logPrintf("Booting..Time \t\t: %s\r\n", __TIME__);   
   
   buttonInit();
+  gpioInit();  
   i2cInit();
+  spiInit();
+  spiFlashInit();  
 
   lcdInit();
   lcdSetFps(20);
     
+  if (sdInit() == true)
+  {
+    // fatfsInit();
+  }  
   return true;
 }

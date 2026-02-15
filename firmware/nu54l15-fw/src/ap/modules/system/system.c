@@ -9,6 +9,9 @@
 static K_MUTEX_DEFINE(mutex_ready);
 
 
+void updateSD(void);
+
+
 
 bool systemInit(void)
 {  
@@ -25,6 +28,7 @@ bool systemIsReady(void)
 void systemMain(void)
 {
   bool init_ret = true;
+  uint32_t pre_time;
 
   lock(mutex_ready);
 
@@ -34,13 +38,33 @@ void systemMain(void)
   logPrintf("[%s] Thread Started : System\n", init_ret ? "OK":"E_" );
   unLock(mutex_ready);
 
+  pre_time = millis();
   while(1)
   {
-    ledToggle(_DEF_LED1);
+    if (millis()-pre_time >= 500)
+    {
+      pre_time = millis();
+      ledToggle(_DEF_LED1);
+    }
+    
+    updateSD();
 
-    if (init_ret)
-      delay(500);
-    else
-      delay(50);
+    delay(5);
+  }
+}
+
+void updateSD(void)
+{
+  sd_state_t sd_state;
+
+
+  sd_state = sdUpdate();
+  if (sd_state == SDCARD_CONNECTED)
+  {
+    logPrintf("\nSDCARD_CONNECTED\n");
+  }
+  if (sd_state == SDCARD_DISCONNECTED)
+  {
+    logPrintf("\nSDCARD_DISCONNECTED\n");
   }
 }

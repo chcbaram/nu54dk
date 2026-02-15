@@ -20,6 +20,7 @@
 
 
 #define _USE_HW_RTOS
+#define _USE_HW_SD
 
 
 #define _USE_HW_LED
@@ -57,6 +58,16 @@
 #define      HW_LCD_WIDTH           128
 #define      HW_LCD_HEIGHT          32
 
+#define _USE_HW_GPIO
+#define      HW_GPIO_MAX_CH         GPIO_PIN_MAX
+
+#define _USE_HW_SPI
+#define      HW_SPI_MAX_CH          1
+
+#define _USE_HW_SPI_FLASH
+#define      HW_SPI_FLASH_ADDR      0x90000000
+
+
 
 //-- CLI
 //
@@ -64,7 +75,9 @@
 #define _USE_CLI_HW_BUTTON          1
 #define _USE_CLI_HW_LOG             1
 #define _USE_CLI_HW_I2C             1
-
+#define _USE_CLI_HW_GPIO            1
+#define _USE_CLI_HW_SPI_FLASH       1
+#define _USE_CLI_HW_SD              1
 
 
 typedef enum
@@ -76,5 +89,12 @@ typedef enum
   BUTTON_PIN_MAX,  
 } ButtonPinName_t;
 
+typedef enum
+{
+  SD_CD = 0,
+  SPI_CS,
+  I2S_MUTE,
+  GPIO_PIN_MAX
+} GpioPinName_t;
 
 #endif
