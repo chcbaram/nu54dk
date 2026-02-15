@@ -47,9 +47,14 @@ bool sdInit(void)
 
   if (is_reinit == false)
   {
+    uint32_t buf[512/4];
+    
+    ret = sdReadBlocks(0, (uint8_t *)buf, 1, 100);
+    
     logPrintf("[%s] sdInit()\n", ret ? "OK":"E_");   
     if (is_detected == true)
     {
+      logPrintf("     status : %d\n", disk_access_status(DISK_NAME));            
       logPrintf("     sdcard found\n");
     }
     else
@@ -329,6 +334,33 @@ void cliSd(cli_args_t *args)
     ret = true;
   }
 
+  if (args->argc == 1 && args->isStr(0, "speed-test") == true)
+  {
+    uint32_t number;
+    uint32_t buf[512/4];
+    uint32_t cnt;
+    uint32_t pre_time;
+    uint32_t exe_time;
+
+    number = args->getData(1);
+
+    cnt = 1024*1024 / 512;
+    pre_time = millis();
+    for (int i=0; i<cnt; i++)
+    {
+      if (sdReadBlocks(number, (uint8_t *)buf, 1, 100) == false)
+      {
+        cliPrintf("sdReadBlocks() Fail:%d\n", i);
+        break;
+      }
+    }
+    exe_time = millis()-pre_time;
+    if (exe_time > 0)
+    {
+      cliPrintf("%d KB/sec\n", 1024 * 1000 / exe_time);
+    }
+    ret = true;
+  }
 
   if (ret != true)
   {
@@ -337,6 +369,7 @@ void cliSd(cli_args_t *args)
     if (is_init == true)
     {
       cliPrintf("sd read block_number\n");
+      cliPrintf("sd speed-test\n");
     }
   }
 }
