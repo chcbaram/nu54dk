@@ -208,6 +208,8 @@ bool sdGetInfo(sd_info_t *p_info)
 		disk_access_ioctl(DISK_NAME, DISK_IOCTL_GET_SECTOR_COUNT, &block_count);
 		disk_access_ioctl(DISK_NAME, DISK_IOCTL_GET_SECTOR_SIZE, &block_size);
 
+    memset(p_info, 0, sizeof(sd_info_t));
+    
     p_info->block_numbers      = block_count;
     p_info->block_size         = block_size;
 
