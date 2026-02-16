@@ -78,7 +78,14 @@ bool sdReInit(void)
 {
   bool ret = false;
 
-  disk_access_ioctl(DISK_NAME, DISK_IOCTL_CTRL_DEINIT, NULL);
+  for (int i=0; i<3; i++)
+  {
+    if (disk_access_ioctl(DISK_NAME, DISK_IOCTL_CTRL_DEINIT, NULL) != 0)
+    {
+      break;
+    }
+  }
+
   int rc = disk_access_init(DISK_NAME);  
   if (rc == 0)
   {

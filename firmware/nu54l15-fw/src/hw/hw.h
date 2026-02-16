@@ -33,6 +33,8 @@ extern "C" {
 #include "spi_flash.h"
 #include "i2c.h"
 #include "sd.h"
+#include "fatfs.h"
+#include "files.h"
 #include "resize.h"
 
 

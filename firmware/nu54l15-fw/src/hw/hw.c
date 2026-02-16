@@ -35,7 +35,7 @@ bool hwInit(void)
     
   if (sdInit() == true)
   {
-    // fatfsInit();
+    fatfsInit();
   }  
   return true;
 }
