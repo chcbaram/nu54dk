@@ -35,6 +35,8 @@ extern "C" {
 #include "sd.h"
 #include "fatfs.h"
 #include "files.h"
+#include "i2s.h"
+
 #include "resize.h"
 
 

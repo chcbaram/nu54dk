@@ -23,7 +23,8 @@ bool hwInit(void)
   logPrintf("Booting..Ver  \t\t: %s\r\n", _DEF_FIRMWATRE_VERSION);  
   logPrintf("Booting..Date \t\t: %s\r\n", __DATE__); 
   logPrintf("Booting..Time \t\t: %s\r\n", __TIME__);   
-  
+  logPrintf("CHIP          \t\t: %X\r\n", NRF_FICR->INFO.PART);   
+
   buttonInit();
   gpioInit();  
   i2cInit();
@@ -37,5 +38,8 @@ bool hwInit(void)
   {
     fatfsInit();
   }  
+
+  i2sInit();
+
   return true;
 }

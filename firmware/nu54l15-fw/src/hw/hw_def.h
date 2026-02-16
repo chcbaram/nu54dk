@@ -12,9 +12,11 @@
 
 #define _HW_DEF_RTOS_THREAD_PRI_CLI           5
 #define _HW_DEF_RTOS_THREAD_PRI_UART          5
+#define _HW_DEF_RTOS_THREAD_PRI_I2S           5
 
 #define _HW_DEF_RTOS_THREAD_MEM_CLI           (6*1024)
 #define _HW_DEF_RTOS_THREAD_MEM_UART          (2*1024)
+#define _HW_DEF_RTOS_THREAD_MEM_I2S           (2*1024)
 
 
 
@@ -23,6 +25,7 @@
 #define _USE_HW_SD
 #define _USE_HW_FATFS
 #define _USE_HW_FILES
+#define _USE_HW_I2S
 
 
 #define _USE_HW_LED
