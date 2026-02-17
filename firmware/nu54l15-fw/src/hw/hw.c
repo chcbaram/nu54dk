@@ -39,7 +39,7 @@ bool hwInit(void)
     fatfsInit();
   }  
 
-  i2sInit();
+  // i2sInit();
 
   return true;
 }

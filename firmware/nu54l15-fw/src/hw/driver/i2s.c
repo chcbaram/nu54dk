@@ -86,7 +86,7 @@ static i2s_t i2s_tbl[I2S_MAX_CH];
 // static STRUCT_SECTION_ITERABLE(k_mem_slab, tx_mem_slab) = Z_MEM_SLAB_INITIALIZER(tx_mem_slab, _k_mem_slab_buf_tx_0_mem_slab, WB_UP(I2S_BUF_FRAME_LEN), I2S_BUF_CNT);
 
 
-// K_MEM_SLAB_DEFINE(tx_mem_slab, I2S_BUF_FRAME_LEN * 2, I2S_BUF_CNT, 32);
+K_MEM_SLAB_DEFINE(tx_mem_slab, I2S_BUF_FRAME_LEN * 2, I2S_BUF_CNT, 32);
 
 static i2s_hw_t i2s_hw_tbl[I2S_MAX_CH] = 
   {
@@ -124,15 +124,15 @@ bool i2sInit(void)
     i2s_tbl[0].i2s_cfg.channels       = 2U;
     i2s_tbl[0].i2s_cfg.format         = I2S_FMT_DATA_FORMAT_I2S;
     i2s_tbl[0].i2s_cfg.frame_clk_freq = 44100;
-    // i2s_tbl[0].i2s_cfg.block_size     = I2S_BUF_FRAME_LEN * 2;
+    i2s_tbl[0].i2s_cfg.block_size     = I2S_BUF_FRAME_LEN * 2;
     i2s_tbl[0].i2s_cfg.block_size     = BLOCK_SIZE;
     i2s_tbl[0].i2s_cfg.timeout        = 1000;
 
     /* Configure the Transmit port as Master */
     i2s_tbl[0].i2s_cfg.options  = I2S_OPT_FRAME_CLK_MASTER | I2S_OPT_BIT_CLK_MASTER;
 
-    // i2s_tbl[0].i2s_cfg.mem_slab = &tx_mem_slab;
-    i2s_tbl[0].i2s_cfg.mem_slab = &tx_0_mem_slab;
+    i2s_tbl[0].i2s_cfg.mem_slab = &tx_mem_slab;
+    // i2s_tbl[0].i2s_cfg.mem_slab = &tx_0_mem_slab;
 
     
 
@@ -145,80 +145,80 @@ bool i2sInit(void)
   }
 
 
-	void *tx_block[NUM_BLOCKS];	
-	int i2s_ret;
-	uint32_t tx_idx;
+	// void *tx_block[NUM_BLOCKS];	
+	// int i2s_ret;
+	// uint32_t tx_idx;
     
-	/* Prepare all TX blocks */
-  for (tx_idx = 0; tx_idx < NUM_BLOCKS; tx_idx++)
-  {
-    i2s_ret = k_mem_slab_alloc(&tx_0_mem_slab, &tx_block[tx_idx],
-                           K_FOREVER);
-    if (i2s_ret < 0)
-    {
-      logPrintf("Failed to allocate TX block\n");
-      return ret;
-    }
-    fill_buf((uint16_t *)tx_block[tx_idx], tx_idx % 3);
-  }
+	// /* Prepare all TX blocks */
+  // for (tx_idx = 0; tx_idx < NUM_BLOCKS; tx_idx++)
+  // {
+  //   i2s_ret = k_mem_slab_alloc(&tx_0_mem_slab, &tx_block[tx_idx],
+  //                          K_FOREVER);
+  //   if (i2s_ret < 0)
+  //   {
+  //     logPrintf("Failed to allocate TX block\n");
+  //     return ret;
+  //   }
+  //   fill_buf((uint16_t *)tx_block[tx_idx], tx_idx % 3);
+  // }
 
-  tx_idx = 0;
-  /* Send first block */
-  i2s_ret = i2s_write(i2s_tbl[0].p_hw->h_i2s, tx_block[tx_idx++], BLOCK_SIZE);
-  if (i2s_ret < 0)
-  {
-    logPrintf("Could not write TX buffer %d\n", tx_idx);
-    return i2s_ret;
-  }
-  /* Trigger the I2S transmission */
-  i2s_ret = i2s_trigger(i2s_tbl[0].p_hw->h_i2s, I2S_DIR_TX, I2S_TRIGGER_START);
-  if (i2s_ret < 0)
-  {
-    printf("Could not trigger I2S tx\n");
-    return i2s_ret;
-  }
-
-  for (; tx_idx < NUM_BLOCKS;)
-  {
-    i2s_ret = i2s_write(i2s_tbl[0].p_hw->h_i2s, tx_block[tx_idx++], BLOCK_SIZE);
-    if (i2s_ret < 0)
-    {
-      logPrintf("[E_] Could not write TX buffer %d, %d\n", tx_idx, i2s_ret);
-      return i2s_ret;
-    }
-  }
-  /* Drain TX queue */
-  i2s_ret = i2s_trigger(i2s_tbl[0].p_hw->h_i2s, I2S_DIR_TX, I2S_TRIGGER_DRAIN);
-  if (i2s_ret < 0)
-  {
-    logPrintf("[E_] Could not trigger I2S tx\n");
-    return i2s_ret;
-  }
-  logPrintf("[  ] All I2S blocks written\n");
-
-
-  // int i2s_ret;
-
+  // tx_idx = 0;
+  // /* Send first block */
+  // i2s_ret = i2s_write(i2s_tbl[0].p_hw->h_i2s, tx_block[tx_idx++], BLOCK_SIZE);
+  // if (i2s_ret < 0)
+  // {
+  //   logPrintf("Could not write TX buffer %d\n", tx_idx);
+  //   return i2s_ret;
+  // }
+  // /* Trigger the I2S transmission */
   // i2s_ret = i2s_trigger(i2s_tbl[0].p_hw->h_i2s, I2S_DIR_TX, I2S_TRIGGER_START);
   // if (i2s_ret < 0)
   // {
-  //   logPrintf("Could not trigger I2S tx\n");    
+  //   printf("Could not trigger I2S tx\n");
+  //   return i2s_ret;
   // }
 
-  // int16_t data = 0;
-  // for (int i=0; i<32; i++)
+  // for (; tx_idx < NUM_BLOCKS;)
   // {
-  //   int16_t buf[32];
-
-  //   for (int j=0; j<32; j++)
+  //   i2s_ret = i2s_write(i2s_tbl[0].p_hw->h_i2s, tx_block[tx_idx++], BLOCK_SIZE);
+  //   if (i2s_ret < 0)
   //   {
-  //     buf[j] = (data += 10) % 1000;
+  //     logPrintf("[E_] Could not write TX buffer %d, %d\n", tx_idx, i2s_ret);
+  //     return i2s_ret;
   //   }
-
-  //   i2s_ret = i2s_buf_write(i2s_tbl[0].p_hw->h_i2s, buf, sizeof(buf)/2);
-  //   logPrintf("tx %d, %d\n", i, i2s_ret);
-  //   delay(10);
   // }
+  // /* Drain TX queue */
+  // i2s_ret = i2s_trigger(i2s_tbl[0].p_hw->h_i2s, I2S_DIR_TX, I2S_TRIGGER_DRAIN);
+  // if (i2s_ret < 0)
+  // {
+  //   logPrintf("[E_] Could not trigger I2S tx\n");
+  //   return i2s_ret;
+  // }
+  // logPrintf("[  ] All I2S blocks written\n");
+
+
+  int i2s_ret;
+
+  i2s_ret = i2s_trigger(i2s_tbl[0].p_hw->h_i2s, I2S_DIR_TX, I2S_TRIGGER_START);
+  if (i2s_ret < 0)
+  {
+    logPrintf("Could not trigger I2S tx\n");    
+  }
+
+  int16_t data = 0;
+  for (int i=0; i<32; i++)
+  {
+    int16_t buf[32];
+
+    for (int j=0; j<32; j++)
+    {
+      buf[j] = (data += 10) % 1000;
+    }
+
+    i2s_ret = i2s_buf_write(i2s_tbl[0].p_hw->h_i2s, buf, sizeof(buf));
+    logPrintf("tx %d, %d\n", i, i2s_ret);
+    // delay(10);
+  }
 
   k_thread_create(&i2s_thread_data, i2s_stack_area,
                   K_THREAD_STACK_SIZEOF(i2s_stack_area),

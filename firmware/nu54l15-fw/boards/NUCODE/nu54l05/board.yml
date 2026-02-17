@@ -1,8 +1,8 @@
 board:
-  name: nu54dk
+  name: nu54l05
   vendor: NUCODE
   socs:
-  - name: nrf54l15
+  - name: nrf54l05
     variants:
     - name: xip
       cpucluster: cpuflpr

@@ -1,17 +1,17 @@
 /dts-v1/;
-#include <nordic/nrf54l15_cpuapp.dtsi>
-#include "nu54dk-pinctrl.dtsi"
+#include <nordic/nrf54l05_cpuapp.dtsi>
+#include "nu54l05-pinctrl.dtsi"
 
 / {
-	model = "NUCODE NU54 DK BOARD";
-	compatible = "NUCODE,nu54dk-cpuapp";
+	model = "nu54l05";
+	compatible = "NUCODE,nu54l05-cpuapp";
 
 	chosen {
 		zephyr,code-partition = &slot0_partition;
 		zephyr,sram = &cpuapp_sram;
 		zephyr,flash = &cpuapp_rram;
 		zephyr,flash-controller = &rram_controller;
-    zephyr,console = &uart22;    
+    zephyr,console = &uart22;       
 	};
 
   leds {
@@ -61,6 +61,7 @@
 		}; 		
 
   };  
+
 };
 
 &grtc {
@@ -72,9 +73,11 @@
 
 &cpuapp_sram {
 	status = "okay";
+	reg = <0x20000000 DT_SIZE_K(96)>;
+	ranges = <0x0 0x20000000 DT_SIZE_K(96)>;
 };
 
-#include <nordic/nrf54l15_partition.dtsi>
+#include <nordic/nrf54l05_partition.dtsi>
 
 &clock {
   status = "okay";
